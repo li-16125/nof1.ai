@@ -29,7 +29,9 @@ import { initDatabase } from "./database/init";
 import { RISK_PARAMS } from "./config/riskParams";
 import { getStrategyParams, getTradingStrategy } from "./agents/tradingAgent";
 import { initializeTerminalEncoding} from "./utils/encodingUtils";
-
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 // 设置时区为中国时间（Asia/Shanghai，UTC+8）
 process.env.TZ = 'Asia/Shanghai';
 
