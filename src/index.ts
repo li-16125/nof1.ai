@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import "dotenv/config";
+
 import { createLogger } from "./utils/loggerUtils";
 import { serve } from "@hono/node-server";
 import { createApiRoutes } from "./api/routes";
