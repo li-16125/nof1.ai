@@ -55,18 +55,32 @@ let server: any = null;
  * 主函数
  */
 async function main() {
-    // 添加环境变量验证
+   // 添加环境变量验证
   logger.info("检查环境变量...");
-  const requiredVars = ['GATE_API_KEY', 'GATE_API_SECRET', 'OPENAI_API_KEY'];
+  
+  const exchange = (process.env.EXCHANGE || "gate").toLowerCase();
+  const requiredVars = ['OPENAI_API_KEY']; // AI 密钥总是需要
+  
+  // 根据交易所添加必需的 API 密钥
+  if (exchange === 'okx') {
+    requiredVars.push('OKX_API_KEY', 'OKX_API_SECRET', 'OKX_API_PASSPHRASE');
+    logger.info(`当前交易所: OKX (${process.env.OKX_USE_TESTNET === 'true' ? '测试网' : '正式网'})`);
+  } else {
+    requiredVars.push('GATE_API_KEY', 'GATE_API_SECRET');
+    logger.info(`当前交易所: Gate.io (${process.env.GATE_USE_TESTNET === 'true' ? '测试网' : '正式网'})`);
+  }
+  
   const missing = requiredVars.filter(varName => !process.env[varName]);
   
   if (missing.length > 0) {
     logger.error(`缺少必要的环境变量: ${missing.join(', ')}`);
+    logger.error(`当前交易所设置为: ${exchange}`);
     logger.error('请在 Railway Variables 中设置这些变量');
     process.exit(1);
   }
   
   logger.info("环境变量检查通过");
+  // ... 其余代码
   logger.info("启动 AI 加密货币自动交易系统");
   
   // 1. 初始化数据库
