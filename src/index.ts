@@ -16,7 +16,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-
+// 替换 "import 'dotenv/config'"
+if (process.env.NODE_ENV !== 'production') {
+  const dotenv = await import('dotenv');
+  dotenv.config();
+}
 import { createLogger } from "./utils/loggerUtils";
 import { serve } from "@hono/node-server";
 import { createApiRoutes } from "./api/routes";
@@ -51,6 +55,18 @@ let server: any = null;
  * 主函数
  */
 async function main() {
+    // 添加环境变量验证
+  logger.info("检查环境变量...");
+  const requiredVars = ['GATE_API_KEY', 'GATE_API_SECRET', 'OPENAI_API_KEY'];
+  const missing = requiredVars.filter(varName => !process.env[varName]);
+  
+  if (missing.length > 0) {
+    logger.error(`缺少必要的环境变量: ${missing.join(', ')}`);
+    logger.error('请在 Railway Variables 中设置这些变量');
+    process.exit(1);
+  }
+  
+  logger.info("环境变量检查通过");
   logger.info("启动 AI 加密货币自动交易系统");
   
   // 1. 初始化数据库
