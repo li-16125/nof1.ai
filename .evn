@@ -13,7 +13,7 @@ PORT=3100
 # ============================================
 # 交易循环间隔（分钟）
 # 建议：波段趋势策略使用20分钟，超短线策略使用5分钟
-TRADING_INTERVAL_MINUTES=5
+TRADING_INTERVAL_MINUTES=10
 
 # 最大杠杆倍数
 MAX_LEVERAGE=25
@@ -118,5 +118,6 @@ ACCOUNT_DRAWDOWN_FORCE_CLOSE_PERCENT=50      # 强制平仓阈值：自动平掉
 # 说明：定期记录账户资产到数据库，生成资产曲线
 # 注意：系统还会在账户净值创新高时实时记录（10秒检查周期），确保峰值不丢失
 ACCOUNT_RECORD_INTERVAL_MINUTES=1
+
 
 
